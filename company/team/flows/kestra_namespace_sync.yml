@@ -13,5 +13,5 @@ tasks:
     password: "{{ secret('GITHUB_ACCESS_TOKEN') }}"
     branch: dev
     # gitDirectory omitted -> repository root
-    dryRun: true
+    # dryRun: true
     onInvalidSyntax: WARN
