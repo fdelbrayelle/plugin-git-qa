@@ -5,7 +5,7 @@ tasks:
     type: io.kestra.plugin.git.NamespaceSync
     namespace: company.team
     sourceOfTruth: KESTRA
-    whenMissingInSource: DELETE
+    whenMissingInSource: KEEP
     protectedNamespaces:
       - system
     url: https://github.com/fdelbrayelle/plugin-git-qa
