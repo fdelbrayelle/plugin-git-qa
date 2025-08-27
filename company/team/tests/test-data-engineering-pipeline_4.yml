@@ -1,54 +1,57 @@
 id: test-data-engineering-pipeline_4
-flowId: git_clone_commit
+tenantId: tenant
 namespace: company.team
+flowId: git_clone_commit
+source: "id: test-data-engineering-pipeline_4\nflowId: git_clone_commit\nnamespace: company.team\ntestCases:\n  - id: etl\n    type: io.kestra.core.tests.flow.UnitTest\n    description: Mock raw data, test transformation\n    fixtures:\n      inputs:\n        columns_to_keep:\n          - brand\n          - price\n      files:\n        raw_products.json: | \n          {\n            \"products\": [\n              {\n                \"id\": 1,\n                \"title\": \"Essence Mascara Lash Princess\",\n                \"category\": \"beauty\",\n                \"price\": 9.99,\n                \"discountPercentage\": 10.48,\n                \"brand\": \"Essence\",\n                \"sku\": \"BEA-ESS-ESS-001\"\n              },\n              {\n                \"id\": 2,\n                \"title\": \"Eyeshadow Palette with Mirror\",\n                \"category\": \"beauty\",\n                \"price\": 19.99,\n                \"discountPercentage\": 18.19,\n                \"brand\": \"Glamour Beauty\",\n                \"sku\": \"BEA-GLA-EYE-002\"\n              }\n            ]\n          }\n      tasks:\n        - id: extract\n          description: avoid extracting data from production API\n          outputs:\n            uri: \"{{ files['raw_products.json'] }}\"\n\n    assertions:\n      - taskId: transform\n        description: Keep only brand and price\n        value: \"{{fromJson(read(outputs.transform.outputFiles['products.json']))[0] | keys}}\"\n        equalTo: [\"brand\", \"price\"]\n        errorMessage: \"Invalid return value: {{read(outputs.transform.outputFiles['products.json'])}}\"\n\n      - taskId: query\n        description: Task computes AVG price per brand, only 2 brands available in mock data\n        value: \"{{outputs.query.size}}\"\n        equalTo: 2\n        errorMessage: Only two brands expected in the output\n"
 testCases:
-  - id: etl
-    type: io.kestra.core.tests.flow.UnitTest
-    description: Mock raw data, test transformation
-    fixtures:
-      inputs:
-        columns_to_keep:
-          - brand
-          - price
-      files:
-        raw_products.json: | 
-          {
-            "products": [
-              {
-                "id": 1,
-                "title": "Essence Mascara Lash Princess",
-                "category": "beauty",
-                "price": 9.99,
-                "discountPercentage": 10.48,
-                "brand": "Essence",
-                "sku": "BEA-ESS-ESS-001"
-              },
-              {
-                "id": 2,
-                "title": "Eyeshadow Palette with Mirror",
-                "category": "beauty",
-                "price": 19.99,
-                "discountPercentage": 18.19,
-                "brand": "Glamour Beauty",
-                "sku": "BEA-GLA-EYE-002"
-              }
-            ]
-          }
-      tasks:
-        - id: extract
-          description: avoid extracting data from production API
-          outputs:
-            uri: "{{ files['raw_products.json'] }}"
-
-    assertions:
-      - taskId: transform
-        description: Keep only brand and price
-        value: "{{fromJson(read(outputs.transform.outputFiles['products.json']))[0] | keys}}"
-        equalTo: ["brand", "price"]
-        errorMessage: "Invalid return value: {{read(outputs.transform.outputFiles['products.json'])}}"
-
-      - taskId: query
-        description: Task computes AVG price per brand, only 2 brands available in mock data
-        value: "{{outputs.query.size}}"
-        equalTo: 2
-        errorMessage: Only two brands expected in the output
+- id: etl
+  type: io.kestra.core.tests.flow.UnitTest
+  disabled: false
+  description: "Mock raw data, test transformation"
+  fixtures:
+    inputs:
+      columns_to_keep:
+      - brand
+      - price
+    files:
+      raw_products.json: |
+        {
+          "products": [
+            {
+              "id": 1,
+              "title": "Essence Mascara Lash Princess",
+              "category": "beauty",
+              "price": 9.99,
+              "discountPercentage": 10.48,
+              "brand": "Essence",
+              "sku": "BEA-ESS-ESS-001"
+            },
+            {
+              "id": 2,
+              "title": "Eyeshadow Palette with Mirror",
+              "category": "beauty",
+              "price": 19.99,
+              "discountPercentage": 18.19,
+              "brand": "Glamour Beauty",
+              "sku": "BEA-GLA-EYE-002"
+            }
+          ]
+        }
+    tasks:
+    - id: extract
+      outputs:
+        uri: "{{ files['raw_products.json'] }}"
+      description: avoid extracting data from production API
+  assertions:
+  - value: "{{fromJson(read(outputs.transform.outputFiles['products.json']))[0] | keys}}"
+    taskId: transform
+    errorMessage: "Invalid return value: {{read(outputs.transform.outputFiles['products.json'])}}"
+    description: Keep only brand and price
+    equalTo: "[\"brand\",\"price\"]"
+  - value: "{{outputs.query.size}}"
+    taskId: query
+    errorMessage: Only two brands expected in the output
+    description: "Task computes AVG price per brand, only 2 brands available in mock data"
+    equalTo: 2
+deleted: false
+disabled: false
