@@ -1,0 +1,95 @@
+id: woodcock_808612
+namespace: lde
+
+tasks:
+  # - id: python
+  #   type: io.kestra.core.tasks.scripts.Python
+  #   inputFiles:
+  #     main.py: |
+  #       with open("demofile.txt", "a") as f:
+  #         f.write("Now the file has more content!")
+
+  #       with open("demofile.txt") as f:
+  #         print(f.read())
+  #   outputFiles:
+  #     - demofile.txt
+
+
+  - id: python
+    type: io.kestra.core.tasks.scripts.Python
+    pythonPath: python3
+    virtualEnv: false
+    commands:
+      - python3 main.py
+    inputFiles:
+      main.py: |
+        with open("demofile.txt", "a") as f:
+          f.write("Now the file has more content!")
+
+        with open("demofile.txt") as f:
+          print(f.read())
+    outputFiles:
+      - demofile.txt
+
+  - id: python2
+    type: io.kestra.core.tasks.scripts.Python
+    pythonPath: python3
+    virtualEnv: false
+    commands:
+      - python3 main.py
+    inputFiles:
+      main.py: |
+        with open("{{ outputFiles.test }}", "w", encoding="utf-8") as f:
+          f.write("test")
+    outputFiles:
+      - test
+
+  - id: bash
+    type: io.kestra.core.tasks.scripts.Bash
+    outputFiles:
+      - test1
+    commands:
+      - |
+        echo "test1-file-content" >> {{ outputFiles.test1 }}
+
+  - id: bash2
+    type: io.kestra.core.tasks.scripts.Bash
+    outputsFiles: # no longer work
+      - test2
+    commands:
+      - |
+        echo "test2-file-content" >> {{ outputFiles.test2 }}
+
+  # - id: python
+  #   type: io.kestra.core.tasks.scripts.Python
+  #   pythonPath: python3
+  #   virtualEnv: false
+  #   commands:
+  #     - python3 main.py
+  #   inputFiles:
+  #     main.py: |
+  #       import os
+
+  #       print("Working directory:", os.getcwd())
+  #       print("Files before:", os.listdir())
+
+  #       with open("demofile.txt", "w") as f:
+  #           f.write("Hello Kestra from test!\n")
+
+  #       with open("demofile.txt", "r") as f:
+  #           print("Content written:", f.read())
+
+  #       print("Files after:", os.listdir())
+  #   outputFiles:
+  #     - demofile.txt
+
+  # - id: python2
+  #   type: io.kestra.plugin.scripts.python.Script
+  #   script: | 
+  #     with open("demofile.txt", "a") as f:
+  #       f.write("Now the file has more content!")
+
+  #     with open("demofile.txt") as f:
+  #       print(f.read())
+  #   outputFiles:
+  #     - demofile.txt

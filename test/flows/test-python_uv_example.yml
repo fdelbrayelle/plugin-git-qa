@@ -1,0 +1,12 @@
+id: python_uv_example
+namespace: test
+
+tasks:
+  - id: python
+    type: io.kestra.plugin.scripts.python.Commands
+    inputFiles:
+      main.py: |
+        import sys
+        print("Hello from uv!", sys.version)
+    commands:
+      - python main.py

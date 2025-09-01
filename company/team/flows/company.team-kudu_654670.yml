@@ -1,0 +1,26 @@
+id: kudu_654670
+namespace: company.team
+
+tasks:
+  - id: listVms
+    type: io.kestra.plugin.ee.vmware.esxi.ListVms
+    server: "esxi.local"
+    port: 443
+    username: "root"
+    password: "AzeR1234!"
+
+  # - id: stopMatchingVms
+  #   type: io.kestra.plugin.core.flow.EachParallel
+  #   value: "{{ outputs.listVms['vmNames'] }}"
+  #   tasks:
+  #     - id: stopIfMatch
+  #       type: io.kestra.plugin.core.flow.If
+  #       condition: "{{ item | startsWith('vm-') }}"
+  #       then:
+  #         - id: stopVm
+  #           type: io.kestra.plugin.ee.vmware.esxi.StopVm
+  #           server: "esxi.mycompany.com"
+  #           port: 443
+  #           username: "root"
+  #           password: "AzeR1234!"
+  #           vmName: "{{ item }}"

@@ -1,0 +1,8 @@
+id: git_clone_commit
+namespace: company.team
+
+tasks:
+  - id: clone_at_sha
+    type: io.kestra.plugin.git.Clone
+    url: https://github.com/kestra-io/kestra
+    commit: 98189392a2a4ea0b1a951cd9dbbfe72f0193d77b

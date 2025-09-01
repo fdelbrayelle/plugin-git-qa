@@ -1,0 +1,21 @@
+id: push_apps
+namespace: prod
+
+inputs:
+  - id: push
+    type: BOOLEAN
+    defaults: false
+
+tasks:
+  - id: if
+    type: io.kestra.plugin.core.flow.If
+    condition: "{{ inputs.push == true}}"
+    then:
+      - id: commit_and_push
+        type: io.kestra.plugin.ee.git.PushApps
+        apps: myapp
+        url: https://github.com/kestra-io/scripts
+        username: git_username
+        password: "{{ secret('GITHUB_ACCESS_TOKEN') }}"
+        branch: main
+        commitMessage: "add myapp from {{ flow.namespace ~ '.' ~ flow.id }}"
