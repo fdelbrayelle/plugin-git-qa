@@ -1,0 +1,26 @@
+id: send-email-with-attachment
+namespace: company.team
+
+tasks:
+  - id: dataset1
+    type: io.kestra.plugin.core.http.Download
+    uri: https://huggingface.co/datasets/kestra/datasets/raw/main/csv/products.csv
+
+  - id: send_email
+    type: io.kestra.plugin.notifications.mail.MailSend
+    from: onboarding@resend.dev
+    to: fdelbrayelle@kestra.io
+    username: resend
+    password: "{{ secret('RESEND_API_KEY') }}"
+    host: smtp.resend.com
+    port: 465
+    subject: Here is your dataset
+    attachments: |
+      [
+        {
+          "name": "data.csv",
+          "uri": "{{ outputs.dataset1.uri }}",
+          "contentType": "text/csv"
+        }
+      ]
+    htmlTextContent: Please find attached your dataset as a CSV filie

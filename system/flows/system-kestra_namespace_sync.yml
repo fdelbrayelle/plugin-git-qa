@@ -1,0 +1,17 @@
+id: kestra_namespace_sync
+namespace: system
+tasks:
+  - id: sync
+    type: io.kestra.plugin.git.NamespaceSync
+    namespace: company.team
+    sourceOfTruth: KESTRA
+    whenMissingInSource: KEEP
+    protectedNamespaces:
+      - system
+    url: https://github.com/fdelbrayelle/plugin-git-qa
+    username: acme-bot
+    password: "{{ secret('GITHUB_ACCESS_TOKEN') }}"
+    branch: dev
+    # gitDirectory omitted -> repository root
+    # dryRun: true
+    onInvalidSyntax: WARN
