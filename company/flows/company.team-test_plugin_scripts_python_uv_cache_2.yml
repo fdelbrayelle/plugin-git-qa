@@ -1,0 +1,17 @@
+id: test_plugin_scripts_python_uv_cache_2
+namespace: company.team
+
+tasks:
+  - id: checks
+    type: io.kestra.plugin.scripts.python.Commands
+    containerImage: python:3.11-slim
+    dependencies:
+      - kubernetes
+      - kestra
+      - requests
+      - tabulate
+    inputFiles:
+      print.py: |
+        print("hello world")
+    commands:
+      - python print.py

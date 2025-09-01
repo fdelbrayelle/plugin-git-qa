@@ -1,0 +1,10 @@
+id: export_all_flows
+namespace: demo
+
+tasks:
+  - id: export_flow
+    type: io.kestra.plugin.kestra.flows.Export
+    kestraUrl: http://localhost:8080
+    auth:
+      username: demo
+      password: DemoDemo1
