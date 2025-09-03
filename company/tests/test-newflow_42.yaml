@@ -1,0 +1,54 @@
+id: test-newflow_42
+flowId: newflow_42
+namespace: company.team
+testCases:
+  - id: etl
+    type: io.kestra.core.tests.flow.UnitTest
+    description: Mock raw data, test transformation
+    fixtures:
+      inputs:
+        columns_to_keep:
+          - brand
+          - price
+      files:
+        raw_products.json: | 
+          {
+            "products": [
+              {
+                "id": 1,
+                "title": "Essence Mascara Lash Princess",
+                "category": "beauty",
+                "price": 9.99,
+                "discountPercentage": 10.48,
+                "brand": "Essence",
+                "sku": "BEA-ESS-ESS-001"
+              },
+              {
+                "id": 2,
+                "title": "Eyeshadow Palette with Mirror",
+                "category": "beauty",
+                "price": 19.99,
+                "discountPercentage": 18.19,
+                "brand": "Glamour Beauty",
+                "sku": "BEA-GLA-EYE-002"
+              }
+            ]
+          }
+      tasks:
+        - id: extract
+          description: avoid extracting data from production API
+          outputs:
+            uri: "{{ files['raw_products.json'] }}"
+
+    assertions:
+      - taskId: transform
+        description: Keep only brand and price
+        value: "{{fromJson(read(outputs.transform.outputFiles['products.json']))[0] | keys}}"
+        equalTo: ["brand", "price"]
+        errorMessage: "Invalid return value: {{read(outputs.transform.outputFiles['products.json'])}}"
+
+      - taskId: query
+        description: Task computes AVG price per brand, only 2 brands available in mock data
+        value: "{{outputs.query.size}}"
+        equalTo: 2
+        errorMessage: Only two brands expected in the output
