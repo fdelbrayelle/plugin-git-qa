@@ -9,6 +9,8 @@ tasks:
     username: fdelbrayelle
     password: "{{ secret('GITHUB_ACCESS_TOKEN') }}"
     branch: other_tenant_qa_10
+    authorName: "Kestra Bot"
+    authorEmail: "bot@kestra.io"
     kestraUrl: "http://localhost:8080"
     auth:
       username: demo
