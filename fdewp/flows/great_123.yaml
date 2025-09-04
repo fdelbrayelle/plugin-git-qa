@@ -1,0 +1,7 @@
+id: great_123
+namespace: fdewp
+
+tasks:
+  - id: hello
+    type: io.kestra.plugin.core.log.Log
+    message: Hello World! 🚀
