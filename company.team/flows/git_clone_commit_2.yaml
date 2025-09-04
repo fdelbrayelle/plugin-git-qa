@@ -1,0 +1,8 @@
+id: git_clone_commit_2
+namespace: company.team
+
+tasks:
+  - id: clone_at_sha
+    type: io.kestra.plugin.git.Clone
+    url: https://github.com/fdelbrayelle/talk-gdpr-for-developers/
+    commit: 29a2bf9
