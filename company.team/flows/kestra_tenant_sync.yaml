@@ -1,0 +1,29 @@
+id: kestra_tenant_sync
+namespace: company.team
+tasks:
+  - id: sync
+    type: io.kestra.plugin.git.TenantSync
+    sourceOfTruth: KESTRA
+    whenMissingInSource: KEEP
+    url: https://github.com/fdelbrayelle/plugin-git-qa
+    username: fdelbrayelle
+    password: "{{ secret('GITHUB_ACCESS_TOKEN') }}"
+    branch: other_tenant_qa_21
+    authorName: "Kestra Bot"
+    authorEmail: "bot@kestra.io"
+    kestraUrl: "http://localhost:8080"
+    auth:
+      username: demo
+      password: DemoDemo1
+
+# - id: sync
+#   type: io.kestra.plugin.ee.git.TenantSync
+#   sourceOfTruth: KESTRA
+#   whenMissingInSource: KEEP
+#   url: https://github.com/fdelbrayelle/plugin-git-qa
+#   username: fdelbrayelle
+#   password: "{{ secret('GITHUB_ACCESS_TOKEN') }}"
+#   branch: other_tenant_qa
+#   kestraUrl: "http://localhost:8080"
+#   auth:
+#     apiToken: "{{ secret('KESTRA_API_TOKEN') }}"
