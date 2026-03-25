@@ -1,0 +1,6 @@
+id: hello_from_git
+namespace: qa.git
+tasks:
+  - id: hello
+    type: io.kestra.plugin.core.log.Log
+    message: "Hello from Git sync!"
