@@ -1,0 +1,12 @@
+id: test-blueprint-2
+title: "Another Test Blueprint"
+description: "Second test blueprint for QA"
+tags:
+  - test
+flow: |
+  id: goodbye_world
+  namespace: company.team
+  tasks:
+    - id: bye
+      type: io.kestra.plugin.core.log.Log
+      message: Goodbye World!
