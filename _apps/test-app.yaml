@@ -1,3 +1,0 @@
-id: test-app
-name: Test App
-type: io.kestra.ee.models.apps.AppEntity
